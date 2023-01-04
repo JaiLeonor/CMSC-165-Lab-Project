@@ -1,5 +1,6 @@
 import cv2 
 import numpy as np
+from moviepy.editor import *
 
 # resolution of the video
 size = (1280, 720)
@@ -10,32 +11,37 @@ videos = [
     "shot7.mp4",
 ]
 
+# FOR MANY BG SHOTS 
 # all the background images to be used
-images = [
-    "bg_shot6.mp4",
-    "bg_shot7.mp4",
-]
+# images = [
+#     "bg_shot6.mp4",
+#     "bg_shot7.mp4",
+# ] 
+
+# FOR SINGLE BG SHOT
+bg_video = cv2.VideoCapture("single_bg.mp4")
 
 # open the final video where all frames will be written in
-final_video = cv2.VideoWriter("final_video.avi", cv2.VideoWriter_fourcc(*"MJPG"), 30.0, size)
+processed_video = cv2.VideoWriter("processed_video.avi", cv2.VideoWriter_fourcc(*"MJPG"), 30.0, size)
 
 # for each video do stuffs
 # range is the number of shots
 for shot in range(len(videos)):
     # get the current video
     current_video = cv2.VideoCapture(videos[shot])
-    bg_video = cv2.VideoCapture(images[shot])
+    # FOR MANY BG SHOTS
+    # bg_video = cv2.VideoCapture(images[shot])
 
     # while the current video is opened
     while current_video.isOpened():
-        # get the current frame
+        # get the current frames
         ret1, frame = current_video.read()
         ret2, image = bg_video.read()
 
         # if no more frames, break
         if not ret1:
             current_video.release()
-            bg_video.release()
+            # bg_video.release()
             break
 
         # resize the frame and bg to same size
@@ -66,7 +72,7 @@ for shot in range(len(videos)):
         # =====================
         
         # write the current frame to the final video 
-        final_video.write(f)
+        processed_video.write(f)
 
         # cv2.imshow("video", frame)
         # cv2.imshow("mask", mask)
@@ -76,5 +82,15 @@ for shot in range(len(videos)):
         # if cv2.waitKey(25) == 27:
         #     break
 
-final_video.release()
+processed_video.release()
 cv2.destroyAllWindows()
+
+# get the processed video
+processed_video = VideoFileClip("processed_video.avi")
+# get the audio file
+bg_audio = AudioFileClip("single_bg.mp4")
+# set the audio file of the processed video
+# subclip gets only the first 0 to 3 seconds
+final_video = processed_video.set_audio(bg_audio.subclip(0,4))
+# save the video and the audio
+final_video.write_videofile("final_video.mp4")
