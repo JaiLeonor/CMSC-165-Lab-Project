@@ -44,8 +44,9 @@ for shot in range(len(videos)):
         # if no more frames, break
         if not ret1:
             current_video.release()
-            # FOR MANY BG SHOTS
+            # FOR MANY BG SHOTS ===============
             bg_video.release()
+            # =================================
             break
 
         # resize the frame and bg to same size
