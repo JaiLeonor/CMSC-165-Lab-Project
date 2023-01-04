@@ -15,17 +15,17 @@ videos = [
     "Shot 7 - Teddie.mp4",
     "Shot 10 - Gabbie.mp4", 
     "Shot 12 - Bobbie.mp4",
-    # "Shot 13 - Alex.mp4",
+    "Shot 13 - Alex.mp4",
     "Shot 14 - Gabbie.mp4", 
-    # "Shot 15 - Alex.mp4",
+    "Shot 15 - Alex.mp4",
     "Shot 16 - Bobbie.mp4",
     "Shot 17 - Mama.mp4", 
     "Shot 18 - Bobbie.mp4",
     "Shot 22 - Mama.mp4",
-    # "Shot 24 - Bobbie.mp4",
+    "Shot 24 - Bobbie.mp4",
     "Shot 25 - Teddie.mp4",
     "Shot 26 - Bobbie.mp4", 
-    # "Shot 27 - Teddie.mp4",
+    "Shot 27 - Teddie.mp4",
 ]
 
 # FOR MANY BG SHOTS ===============
@@ -90,8 +90,15 @@ for shot in range(len(videos)):
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
         # specify upper and lower thresholds
-        u_green = np.array([102, 255, 255])
-        l_green = np.array([50, 80, 15])
+        if videos[shot] == "Shot 1 - Mama.mp4" or videos[shot] == "Shot 2 - Mama.mp4" or videos[shot] == "Shot 5 - Mama.mp4" or videos[shot] == "Shot 17 - Mama.mp4" or videos[shot] == "Shot 22 - Mama.mp4": 
+          u_green = np.array([102, 255, 255])
+          l_green = np.array([37, 60, 72])
+        elif videos[shot] == "Shot 7 - Teddie.mp4" or videos[shot] == "Shot 25 - Teddie.mp4" or videos[shot] == "Shot 27 - Teddie.mp4":
+          u_green = np.array([104, 255, 255])
+          l_green = np.array([44, 23, 80])
+        else: 
+          u_green = np.array([102, 255, 255])
+          l_green = np.array([50, 80, 15])
 
         # get the mask with Gaussian blur to soften edges 
         mask = cv2.inRange(hsv, l_green, u_green)
