@@ -12,8 +12,8 @@ videos = [
 
 # all the background images to be used
 images = [
-    "bg_shot6.jpeg",
-    "bg_shot7.jpg",
+    "bg_shot6.mp4",
+    "bg_shot7.mp4",
 ]
 
 # open the final video where all frames will be written in
@@ -24,15 +24,18 @@ final_video = cv2.VideoWriter("final_video.avi", cv2.VideoWriter_fourcc(*"MJPG")
 for shot in range(len(videos)):
     # get the current video
     current_video = cv2.VideoCapture(videos[shot])
-    image = cv2.imread(images[shot])
+    bg_video = cv2.VideoCapture(images[shot])
 
     # while the current video is opened
     while current_video.isOpened():
         # get the current frame
-        ret, frame = current_video.read()
+        ret1, frame = current_video.read()
+        ret2, image = bg_video.read()
 
         # if no more frames, break
-        if not ret:
+        if not ret1:
+            current_video.release()
+            bg_video.release()
             break
 
         # resize the frame and bg to same size
@@ -51,15 +54,15 @@ for shot in range(len(videos)):
 
         # ADDING BG IMAGE 
         # METHOD 1 ============
-        # frame[mask != 0] = [0,0,0]
-        # image[mask == 0] = [0,0,0]
-        # f = frame + image
+        frame[mask != 0] = [0,0,0]
+        image[mask == 0] = [0,0,0]
+        f = frame + image
         # =====================
 
         # METHOD 2 ============
-        bg = cv2.bitwise_and(frame, frame, mask = mask)
-        f = frame - bg
-        f = np.where(f == 0, image, f)
+        # bg = cv2.bitwise_and(frame, frame, mask = mask)
+        # f = frame - bg
+        # f = np.where(f == 0, image, f)
         # =====================
         
         # write the current frame to the final video 
