@@ -21,6 +21,8 @@ videos = [
     "Shot 16 - Bobbie.mp4",
     "Shot 17 - Mama.mp4", 
     "Shot 18 - Bobbie.mp4",
+    "Shot 20 - Mama.mp4", 
+    "Shot 21 - Bobbie.mp4",
     "Shot 22 - Mama.mp4",
     "Shot 24 - Bobbie.mp4",
     "Shot 25 - Teddie.mp4",
@@ -90,7 +92,7 @@ for shot in range(len(videos)):
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
         # specify upper and lower thresholds
-        if videos[shot] == "Shot 1 - Mama.mp4" or videos[shot] == "Shot 2 - Mama.mp4" or videos[shot] == "Shot 5 - Mama.mp4" or videos[shot] == "Shot 17 - Mama.mp4" or videos[shot] == "Shot 22 - Mama.mp4": 
+        if videos[shot] == "Shot 1 - Mama.mp4" or videos[shot] == "Shot 2 - Mama.mp4" or videos[shot] == "Shot 5 - Mama.mp4" or videos[shot] == "Shot 17 - Mama.mp4" or videos[shot] == "Shot 20 - Mama.mp4" or videos[shot] == "Shot 22 - Mama.mp4": 
           u_green = np.array([102, 255, 255])
           l_green = np.array([37, 60, 72])
         elif videos[shot] == "Shot 7 - Teddie.mp4" or videos[shot] == "Shot 25 - Teddie.mp4" or videos[shot] == "Shot 27 - Teddie.mp4":
